@@ -77,8 +77,7 @@ class dom_xmlrpc_parser {
 
 		//parse out whitespace -  (XML_OPTION_SKIP_WHITE = 1 does not
 		//seem to work consistently across versions of PHP and Expat
-		$xmlText = eregi_replace('>' . "[[:space:]]+" . '<' , '><', $xmlText);
-
+		$xmlText = preg_replace('/>'."[[:space:]]+".'</iu','><',$xmlText);
 		$success = xml_parse($parser, $xmlText);
 		xml_parser_free($parser);
 
