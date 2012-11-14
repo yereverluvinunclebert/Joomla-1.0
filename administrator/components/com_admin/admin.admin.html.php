@@ -324,13 +324,13 @@ class HTML_admin_misc {
 				<?php
 				$cf = file( $mosConfig_absolute_path . '/configuration.php' );
 				foreach ($cf as $k=>$v) {
-					if (eregi( 'mosConfig_host', $v)) {
+				        if(preg_match('/mosConfig_host/i',$v)) {
 						$cf[$k] = '$mosConfig_host = \'xxxxxx\'';
-					} else if (eregi( 'mosConfig_user', $v)) {
+					} elseif(preg_match('/mosConfig_user/i',$v)) {
 						$cf[$k] = '$mosConfig_user = \'xxxxxx\'';
-					} else if (eregi( 'mosConfig_password', $v)) {
+					} elseif(preg_match('/mosConfig_password/i',$v)) {
 						$cf[$k] = '$mosConfig_password = \'xxxxxx\'';
-					} else if (eregi( 'mosConfig_db ', $v)) {
+					} elseif(preg_match('/mosConfig_db /i',$v)) {
 						$cf[$k] = '$mosConfig_db = \'xxxxxx\'';
 					}
 				}
@@ -450,7 +450,7 @@ class HTML_admin_misc {
 
 		$page 		= strval( mosGetParam( $_REQUEST, 'page', 'joomla.whatsnew100.html' ) );
 		$toc 		= getHelpToc( $helpsearch );
-		if (!eregi( '\.html$', $page )) {
+                if(!preg_match('/\.html$/',$page)) {
 			$page .= '.xml';
 		}
 
