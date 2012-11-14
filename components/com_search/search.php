@@ -198,8 +198,7 @@ function viewSearch() {
 			}
 
 			$searchRegex = implode( '|', $searchwords );
-
-			$text = eregi_replace( '('.$searchRegex.')', '<span class="highlight">\0</span>', $text );
+			$text = preg_replace( '/'.$searchRegex.'/iu', '<span class="highlight">\0</span>', $text );
 
 			if ( strpos( $rows[$i]->href, 'http' ) == false ) {
 				$url = parse_url( $rows[$i]->href );
