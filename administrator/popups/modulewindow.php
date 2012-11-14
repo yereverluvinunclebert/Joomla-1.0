@@ -52,9 +52,9 @@ $pat		= "src=images";
 $replace	= "src=../../images";
 $pat2		= "\\\\'";
 $replace2	= "'";
-$content	= eregi_replace($pat, $replace, $row->content);
-$content	= eregi_replace($pat2, $replace2, $row->content);
-$title		= eregi_replace($pat2, $replace2, $row->title);
+$content        = preg_replace('/'.$pat.'/iu',$replace,$row->content);
+$content        = preg_replace('/'.$pat2.'/iu',$replace2,$row->content);
+$title          = preg_replace('/'.$pat2.'/iu',$replace2,$row->title);
 
 // css file handling
 // check to see if template exists
