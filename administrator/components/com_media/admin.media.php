@@ -107,7 +107,7 @@ function create_folder($dirPath) {
 	$folder_name = mosGetParam( $_POST, 'foldername', '' );
 
 	if(strlen($folder_name) >0) {
-		if (eregi("[^0-9a-zA-Z_]", $folder_name)) {
+                if(preg_match("/[^0-9a-zA-Z_]/i", $folder_name)) {
 			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], "Directory name must only contain alphanumeric characters and no spaces please." );
 		}
 		$folder = COM_MEDIA_BASE . $dirPath . DIRECTORY_SEPARATOR . $folder_name;
@@ -292,7 +292,7 @@ function listImages($listdir) {
 		while (false !== ($entry = $d->read())) {
 			$img_file = $entry;
 			if(is_file( COM_MEDIA_BASE .$listdir.'/'.$img_file) && substr($entry,0,1) != '.' && strtolower($entry) !== 'index.html' ) {
-				if (eregi( $allowable, $img_file )) {
+				if(preg_match($allowable,$img_file)) {
 					$image_info 				= @getimagesize( COM_MEDIA_BASE ."/".$listdir.'/'.$img_file);
 					$file_details['file'] 		= COM_MEDIA_BASE . $listdir."/".$img_file;
 					$file_details['img_info'] 	= $image_info;
