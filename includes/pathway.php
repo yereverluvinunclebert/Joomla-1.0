@@ -277,7 +277,7 @@ function showPathway( $Itemid ) {
 	}
 
 	while ($i--) {
-		if (!$mid || empty( $mitems[$mid] ) || $Itemid == $home_menu->id || !eregi("option", $optionstring)) {
+		if(!$mid || empty($mitems[$mid]) || $Itemid == $home_menu->id || !preg_match("/option/i",
 			break;
 		}
 		$item =& $mitems[$mid];
@@ -288,7 +288,7 @@ function showPathway( $Itemid ) {
 		if (($item->id == $Itemid && !$mainframe->getCustomPathWay()) || empty( $mid ) || empty($item->link)) {
 			$newlink = "  $itemname";
 		} else if (isset($item->type) && $item->type == 'url') {
-			$correctLink = eregi( 'http://', $item->link);
+			$correctLink = preg_match('/http:\/\//i',$item->link);
 			if ($correctLink==1) {
 				$newlink = '<a href="'. $item->link .'" target="_window" class="pathway">'. $itemname .'</a>';
 			} else {
@@ -310,7 +310,7 @@ function showPathway( $Itemid ) {
 		$mid = $item->parent;
 	}
 
-	if ( eregi( 'option', $optionstring ) && trim( $path  ) ) {
+	if(preg_match('/option/i',$optionstring) && trim($path)) {
 		$home = '<a href="'. sefRelToAbs( 'index.php' ) .'" class="pathway">'. $home .'</a>';
 	}
 
