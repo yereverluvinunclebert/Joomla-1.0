@@ -32,8 +32,7 @@ class dom_xmlrpc_domxml_document {
 	*/
 	function parseXML($xmlText) {
 		//remove whitespace
-		$xmlText = eregi_replace('>' . "[[:space:]]+" . '<' , '><', $xmlText);
-
+		$xmlText = preg_replace('/>'."[[:space:]]+".'</iu','><',$xmlText);
 		//parse document
 		$this->xmldoc = domxml_open_mem($xmlText);
 
