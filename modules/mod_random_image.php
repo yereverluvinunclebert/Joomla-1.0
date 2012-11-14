@@ -52,7 +52,7 @@ if (is_dir($abspath_folder)) {
 
 	foreach ($the_array as $img) {
 		if (!is_dir($abspath_folder .'/'. $img)) {
-			if (eregi($type, $img)) {
+			if (preg_match("/".$type."/i", $img)) {
 				$the_image[] = $img;
 			}
 		}
