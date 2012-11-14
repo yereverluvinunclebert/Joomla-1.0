@@ -2841,7 +2841,7 @@ class mosUser extends mosDBTable {
 			$this->password = substr( $password, 0, 50 );
 		}
 
-		if (eregi( "[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", $this->username) || strlen( $this->username ) < 3) {
+                if(preg_match("/[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]/",$this->username) || strlen($this->username) <3) {
 			$this->_error = sprintf( addslashes( _VALID_AZ09 ), addslashes( _PROMPT_UNAME ), 2 );
 			return false;
 		}
@@ -3766,7 +3766,7 @@ function mosFormatDate( $date, $format="", $offset=NULL ){
 	if ( is_null($offset) ) {
 		$offset = $mosConfig_offset;
 	}
-	if ( $date && ereg( "([0-9]{4})-([0-9]{2})-([0-9]{2})[ ]([0-9]{2}):([0-9]{2}):([0-9]{2})", $date, $regs ) ) {
+        if ($date && preg_match("/^([0-9]{4})-([0-9]{2})-([0-9]{2})[ ]([0-9]{2}):([0-9]{2}):([0-9]{2})/", $date, $regs)) {
 		$date = mktime( $regs[4], $regs[5], $regs[6], $regs[2], $regs[3], $regs[1] );
 		$date = $date > -1 ? strftime( $format, $date + ($offset*60*60) ) : '-';
 	}
@@ -4830,7 +4830,7 @@ class mosAdminMenus {
 		$imageFiles = mosReadDirectory( $mosConfig_absolute_path . $directory );
 		$images 	= array(  mosHTML::makeOption( '', '- Select Image -' ) );
 		foreach ( $imageFiles as $file ) {
-			if ( eregi( "bmp|gif|jpg|png", $file ) ) {
+			if(preg_match("/bmp|gif|jpg|png/i",$file)) {
 				$images[] = mosHTML::makeOption( $file );
 			}
 		}
@@ -5031,7 +5031,7 @@ class mosAdminMenus {
 			if ( is_dir( $i_f ) && $file != 'CVS' && $file != '.svn') {
 				$folders[] = mosHTML::makeOption( $ff_ );
 				mosAdminMenus::ReadImages( $i_f, $ff_, $folders, $images );
-			} else if ( eregi( "bmp|gif|jpg|png", $file ) && is_file( $i_f ) ) {
+			} else if(preg_match("/bmp|gif|jpg|png/",$file) && is_file($i_f)) {
 				// leading / we don't need
 				$imageFile = substr( $ff, 1 );
 				$images[$folderPath][] = mosHTML::makeOption( $imageFile, $file );
@@ -5058,8 +5058,7 @@ class mosAdminMenus {
 				foreach ($imgFiles as $file) {
 					$ff 	= $folderPath . $file;
 					$i_f 	= $imagePath .'/'. $file;
-
-					if ( eregi( "bmp|gif|jpg|png", $file ) && is_file( $i_f ) ) {
+					if(preg_match("/bmp|gif|jpg|png/i",$file) && is_file($i_f)) {
 						// leading / we don't need
 						$imageFile = substr( $ff, 1 );
 						$images[$folderPath][] = mosHTML::makeOption( $imageFile, $file );
