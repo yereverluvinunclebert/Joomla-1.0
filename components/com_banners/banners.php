@@ -91,11 +91,10 @@ function viewbanner() {
 
 			if (trim( $banner->custombannercode )) {
 				echo $banner->custombannercode;
-			} else if (eregi( "(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$", $banner->imageurl )) {
+			} else if(preg_match("/(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$/i", $banner->image_url)) {
 				$imageurl = "$mosConfig_live_site/images/banners/$banner->imageurl";
 				echo "<a href=\"".sefRelToAbs("index.php?option=com_banners&amp;task=click&amp;bid=$banner->bid")."\" target=\"_blank\"><img src=\"$imageurl\" border=\"0\" alt=\"Advertisement\" /></a>";
-
-			} else if (eregi("\.swf$", $banner->imageurl)) {
+			} else if(preg_match("/.swf/i", $banner->image_url)) {
 				$imageurl = "$mosConfig_live_site/images/banners/".$banner->imageurl;
 				echo "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0\" border=\"5\">
 						<param name=\"movie\" value=\"$imageurl\"><embed src=\"$imageurl\" loop=\"false\" pluginspage=\"http://www.macromedia.com/go/get/flashplayer\" type=\"application/x-shockwave-flash\"></embed></object>";
@@ -119,7 +118,7 @@ function clickbanner( $bid ) {
 	$row->clicks();
 
 	$pat = "http.*://";
-	if (!eregi( $pat, $row->clickurl )) {
+	if (!preg_match("/".$pat."/i", $row->clickurl))
 		$clickurl = "http://$row->clickurl";
 	} else {
 		$clickurl = $row->clickurl;
