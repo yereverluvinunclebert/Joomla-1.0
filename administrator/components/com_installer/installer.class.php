@@ -85,7 +85,7 @@ class mosInstaller {
 
 		$this->unpackDir( $extractdir );
 
-		if (eregi( '.zip$', $archivename )) {
+		if(preg_match('/.zip$/i',$archivename)) {
 			// Extract functions
 			require_once( $mosConfig_absolute_path . '/administrator/includes/pcl/pclzip.lib.php' );
 			require_once( $mosConfig_absolute_path . '/administrator/includes/pcl/pclerror.lib.php' );
