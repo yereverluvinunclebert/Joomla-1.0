@@ -100,9 +100,9 @@ if (isset($_FILES['userfile'])) {
 		mosErrorAlert("Please select an image to upload", $action);
 	}
 
-	$filename = split("\.", $userfile_name);
+	$filename = explode("\.",$userfile_name);
 
-	if (eregi("[^0-9a-zA-Z_]", $filename[0])) {
+	if(preg_match("/[^0-9a-zA-Z_]/i",$filename[0])) {
 		mosErrorAlert('File must only contain alphanumeric characters and no spaces please.', $action );
 	}
 
@@ -115,7 +115,7 @@ if (isset($_FILES['userfile'])) {
 	}
 
 
-	if (eregi('.pdf', $userfile_name) || eregi('.doc', $userfile_name) || eregi('.xls', $userfile_name) || eregi('.ppt', $userfile_name)) {
+	if(preg_match('/.pdf/i',$userfile_name) || preg_match('/.doc/i',$userfile_name) || preg_match('/.xls/',$userfile_name) || preg_match('/.ppt/i',$userfile_name)) {
 		if (!move_uploaded_file ($_FILES['userfile']['tmp_name'],$media_path.$_FILES['userfile']['name']) || !mosChmod($media_path.$_FILES['userfile']['name'])) {
 			mosErrorAlert('Upload of '.$userfile_name.' failed', $action);
 		} else {
