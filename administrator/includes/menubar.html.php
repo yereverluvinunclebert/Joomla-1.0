@@ -472,7 +472,7 @@ class mosMenuBar {
 		if ($com) {
 	   // help file for 3PD Components
 			$url = $mosConfig_live_site . '/administrator/components/' . $GLOBALS['option'] . '/help/';
-			if (!eregi( '\.html$', $ref ) && !eregi( '\.xml$', $ref )) {
+			if(!preg_match('/\.html$/i',$ref) && !preg_match('/\.xml$/i',$ref)) {
 				$ref = $ref . '.html';
 			}
 			$url .= $ref;
@@ -483,7 +483,7 @@ class mosMenuBar {
 		} else {
 	   // Included html help files
 			$url = $mosConfig_live_site . '/help/';
-			if (!eregi( '\.html$', $ref ) && !eregi( '\.xml$', $ref )) {
+			if(!preg_match('/\.html$/i',$ref) && !preg_match('/\.xml$/i',$ref)) {
 				$ref = $ref . '.html';
 			}			
 			$url .= $ref;
