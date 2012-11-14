@@ -366,8 +366,7 @@ if ($mosConfig_sef) {
 		*/
 		$jdir = str_replace( 'index.php', '', $_SERVER['PHP_SELF'] );
 		$juri = str_replace( $jdir, '', $_SERVER['REQUEST_URI'] );
-
-		if ($juri != '' && $juri != '/' && !eregi( "index\.php", $_SERVER['REQUEST_URI'] ) && !eregi( "index2\.php", $_SERVER['REQUEST_URI'] ) && !eregi( "/\?", $_SERVER['REQUEST_URI'] ) && $_SERVER['QUERY_STRING'] == '' ) {
+		if ($juri != '' && $juri != '/' && !preg_match("/index.php/i", $_SERVER['REQUEST_URI']) && !preg_match("/index2.php/i", $_SERVER['REQUEST_URI']) && !preg_match("/\?/i", $_SERVER['REQUEST_URI']) && $_SERVER['QUERY_STRING'] == '') {
 			header( 'HTTP/1.0 404 Not Found' );
 			require_once( $mosConfig_absolute_path . '/templates/404.php' );
 			exit( 404 );
@@ -385,12 +384,12 @@ function sefRelToAbs( $string ) {
 	global $iso_client_lang;
 
 	//multilingual code url support
-	if( $mosConfig_sef && $mosConfig_multilingual_support && $string!='index.php' && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),'index.php') && !eregi('lang=', $string) ) {
+	if ($mosConfig_sef && $mosConfig_multilingual_support && $string!= 'index.php' && !preg_match("/^(([^:\/\?#]+):)/i", $string) && !strcasecmp(substr($string, 0, 9), 'index.php') && !preg_match('/lang=/', $string)) {
 		$string .= '&amp;lang='. $iso_client_lang;
 	}
 
 	// SEF URL Handling
-	if ($mosConfig_sef && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),'index.php')) {
+	if ($mosConfig_sef && !preg_match("/^(([^:\/\?#]+):)/i", $string) && !strcasecmp(substr($string, 0, 9), 'index.php')) {
 		// Replace all &amp; with &
 		$string = str_replace( '&amp;', '&', $string );
 
@@ -530,7 +529,7 @@ function sefRelToAbs( $string ) {
 			if (strncmp($string, '/', 1) == 0) {
 				// splits http(s)://xx.xx/yy/zz..." into [1]="http(s)://xx.xx" and [2]="/yy/zz...":
 				$live_site_parts = array();
-				eregi("^(https?:[\/]+[^\/]+)(.*$)", $mosConfig_live_site, $live_site_parts);
+				preg_match("/^(https?:[\/]+[^\/]+)(.*$)/i", JPATH_SITE, $live_site_parts);
 
 				$string = $live_site_parts[1] . $string;
 			} else {
