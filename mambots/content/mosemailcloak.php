@@ -69,7 +69,7 @@ function botMosEmailCloak( $published, &$row, &$params, $page=0 ) {
 
 	// search for derivativs of link code <a href="mailto:email@amail.com">email@amail.com</a>
 	$pattern = botMosEmailCloak_searchPattern( $search_email, $search_email );
-	while( eregi( $pattern, $row->text, $regs ) ) {		
+	while (preg_match("/" . $pattern . "/u", $row->text, $regs)) {
 		$mail 		= $regs[2] . $regs[3] . $regs[4];
 		$mail_text 	= $regs[5] . $regs[6] . $regs[7];
 
@@ -86,7 +86,8 @@ function botMosEmailCloak( $published, &$row, &$params, $page=0 ) {
 
 	// search for derivativs of link code <a href="mailto:email@amail.com">anytext</a>
 	$pattern = botMosEmailCloak_searchPattern( $search_email, $search_text );
-	while( eregi( $pattern, $row->text, $regs ) ) {		
+	while (preg_match("/" . $pattern . "/iu", $row->text, $regs)) {
+
 		$mail 		= $regs[2] . $regs[3] . $regs[4];
 		$mail_text 	= $regs[5];
 
@@ -98,7 +99,8 @@ function botMosEmailCloak( $published, &$row, &$params, $page=0 ) {
 
 	// search for derivativs of link code <a href="mailto:email@amail.com?subject=Text&body=Text">email@amail.com</a>
 	$pattern = botMosEmailCloak_searchPattern( $search_email_msg, $search_email );
-	while( eregi( $pattern, $row->text, $regs ) ) {		
+	while (preg_match("/" . $pattern . "/iu", $row->text, $regs)) {
+		
 		$mail		= $regs[2] . $regs[3] . $regs[4] . $regs[5];
 		$mail_text	= $regs[6] . $regs[7]. $regs[8];
 		//needed for handling of Body parameter
@@ -117,7 +119,8 @@ function botMosEmailCloak( $published, &$row, &$params, $page=0 ) {
 	
 	// search for derivativs of link code <a href="mailto:email@amail.com?subject=Text&body=Text">anytext</a>
 	$pattern = botMosEmailCloak_searchPattern( $search_email_msg, $search_text );
-	while( eregi( $pattern, $row->text, $regs ) ) {		
+	while (preg_match("/" . $pattern . "/iu", $row->text, $regs)) {
+
 		$mail		= $regs[2] . $regs[3] . $regs[4] . $regs[5];
 		$mail_text	= $regs[6];
 		//needed for handling of Body parameter
@@ -128,9 +131,9 @@ function botMosEmailCloak( $published, &$row, &$params, $page=0 ) {
 		// replace the found address with the js cloacked email
 		$row->text     = str_replace( $regs[0], $replacement, $row->text );
 	}
-	
+
 	// search for plain text email@amail.com
-	while( eregi( $search_email, $row->text, $regs ) ) {
+	while (preg_match("/" . $search_email . "/iu", $row->text, $regs)) {
 		$mail = $regs[0];
 
 		$replacement = mosHTML::emailCloaking( $mail, $mode );
@@ -143,6 +146,6 @@ function botMosEmailCloak( $published, &$row, &$params, $page=0 ) {
 function botMosEmailCloak_searchPattern ( $link, $text ) {	
 	// <a href="mailto:anyLink">anyText</a>
 	$pattern = "(<a [[:alnum:] _\"\'=\@\.\-]*href=[\"\']mailto:". $link	."[\"\'][[:alnum:] _\"\'=\@\.\-]*)>". $text ."</a>";
-	
+
 	return $pattern;
 }
