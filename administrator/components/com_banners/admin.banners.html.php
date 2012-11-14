@@ -273,11 +273,11 @@ class HTML_banners {
 			</td>
 			<td valign="top">
 			<?php
-			if (eregi("swf", $_row->imageurl)) {
+			if(preg_match("/.swf/", $row->image_url)) {
 				?>
 				<img src="images/blank.png" name="imagelib">
 				<?php
-			} elseif (eregi("gif|jpg|png", $_row->imageurl)) {
+			} elseif(preg_match("/(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$/", $row->image_url)) {
 				?>
 				<img src="../images/banners/<?php echo $_row->imageurl; ?>" name="imagelib" />
 				<?php
