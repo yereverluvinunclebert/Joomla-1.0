@@ -152,7 +152,7 @@ function populate_db( &$database, $sqlfile='mambo.sql') {
  */
 function split_sql($sql) {
 	$sql = trim($sql);
-	$sql = ereg_replace("\n#[^\n]*\n", "\n", $sql);
+	$sql = str_replace("\n#[^\n]*\n", "\n", $sql);
 
 	$buffer = array();
 	$ret = array();
